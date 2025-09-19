@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "clsx": "^2.1.1",
+    "font-awesome": "^4.7.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

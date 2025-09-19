@@ -1,0 +1,30 @@
+
+.lista {
+  margin: 1rem 2rem;
+}
+
+
+
+li.done > span {
+  text-decoration: line-through;
+}
+
+.ciao {
+  color: purple;
+}
+
+button.btn {
+  margin: 0.3rem;
+}
+
+li.list-group-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+li.list-group-item > span {
+  flex-grow: 2;
+} 
+
