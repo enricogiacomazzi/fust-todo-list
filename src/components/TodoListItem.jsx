@@ -1,10 +1,18 @@
 import {clsx} from 'clsx';
 import { MyButton } from './MyButton';
 
+function render() {
+    console.log('render');
+    return '';
+}
 
 export const TodoListItem = ({todo, deleteTodo, toggleDone}) => {
+
+    console.log('prova', todo.id);
+
     return (
         <li className={clsx('list-group-item', todo.done && 'done')}>
+            {render()}
             <span>{todo.text}</span>
             <MyButton 
                 icon="fa-trash" 
