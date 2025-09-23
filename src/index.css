@@ -28,3 +28,7 @@ li.list-group-item > span {
   flex-grow: 2;
 } 
 
+
+.invalid {
+  background-color: red;
+}
