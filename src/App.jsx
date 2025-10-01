@@ -2,63 +2,31 @@ import './App.css';
 import {useState, useRef} from 'react';
 import {clsx} from 'clsx';
 import style from './App.module.css';
-
-
-const validators = {
-    firstname: value => value.length > 0,
-    lastname: value => value.length > 3,
-    username: value => value.length > 0 && value.startsWith('@')
-}
+import { useForm } from "react-hook-form"
 
 
 const App = () => {
-  const [formValue, setFormValue] = useState({
-    firstname: '',
-    lastname: '',
-    username: ''
-  });
-  const [formValid, setFormValid] = useState({
-    firstname: false,
-    lastname: false,
-    username: false
-  });
-
-  const [formTouched, setFormTouched] = useState({
-    firstname: false,
-    lastname: false,
-    username: false
-  });
-
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    console.log(formValue);
-  }
-
-  function formHandler(e) {
-    const value = e.target.value;
-    const field = e.target.name;
-    setFormValue(f => ({...f, [field]: value}));
-    setFormTouched(f => ({...f, [field]: true}));
-
-    const validator = validators[field];
-    setFormValid(f => ({...f, [field]: validator(value)}));
-  }
+  const {register, handleSubmit, formState: {errors}} = useForm();
 
   const inputCls = (field) => {
-    return (!formValid[field] && formTouched[field]) ? 'invalid' : '';
+    console.log(errors[field]);
+    return !!errors[field] ? 'invalid' : '';
+  }
+
+  const onSubmit = (data) => {
+    console.log('ciao', data);
   }
 
   return (
     <>
-      <form onSubmit={submitHandler}>
-        <input name="firstname" className={inputCls('firstname')} type="text" value={formValue.firstname} onChange={formHandler}></input>
-        <input name="lastname" className={inputCls('lastname')} type="text" value={formValue.lastname} onChange={formHandler}></input>
-        <input name="username" className={inputCls('username')} type="text" value={formValue.username} onChange={formHandler}></input>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input className={inputCls('firstname')} type="text" {...register('firstname', {required: true})}></input>
+        <input className={inputCls('lastname')} type="text" {...register('lastname', {required: true, minLength: 4})}></input>
+        <input className={inputCls('username')} type="text" {...register('username', {required: true, pattern: /^@\w+$/})}></input>
+        <input className={inputCls('height')} type="text" {...register('height', {required: true, valueAsNumber: true, min: 0})}></input>
         <br />
         <input type="submit" value="Send" />
         <br/>
-        <pre>{JSON.stringify(formTouched)}</pre>
       </form>
     </>
 
