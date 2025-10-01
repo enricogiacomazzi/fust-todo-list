@@ -3,10 +3,12 @@ import {useState, useRef} from 'react';
 import {clsx} from 'clsx';
 import style from './App.module.css';
 import { useForm } from "react-hook-form"
+import { MyInput } from './components/MyInput';
 
 
 const App = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm();
+  const frm = useForm();
+  const {register, watch, handleSubmit, formState: {errors, dirtyFields}} = frm;
 
   const inputCls = (field) => {
     console.log(errors[field]);
@@ -17,15 +19,17 @@ const App = () => {
     console.log('ciao', data);
   }
 
+  console.log(watch('firstname'));
+
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input className={inputCls('firstname')} type="text" {...register('firstname', {required: true})}></input>
-        <input className={inputCls('lastname')} type="text" {...register('lastname', {required: true, minLength: 4})}></input>
-        <input className={inputCls('username')} type="text" {...register('username', {required: true, pattern: /^@\w+$/})}></input>
-        <input className={inputCls('height')} type="text" {...register('height', {required: true, valueAsNumber: true, min: 0})}></input>
+      <form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
+        <MyInput label="Nome" inputName="firstname" form={frm} registerProps={{required: true}} />
+        <MyInput label="Cognome" inputName="lastname" form={frm} registerProps={{required: true, minLength: 5}} />
+        <MyInput label="Username" inputName="username" form={frm} registerProps={{required: true, pattern: /^@\w+$/}}/>
+        
         <br />
-        <input type="submit" value="Send" />
+        <input className="btn btn-primary" type="submit" value="Send" />
         <br/>
       </form>
     </>
